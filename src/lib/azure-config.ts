@@ -25,12 +25,31 @@ export const validateAzureConfig = (): boolean => {
     return false;
   }
 
-  const required = [
-    azureConfig.storage.accountName,
-    azureConfig.storage.accountKey,
-    azureConfig.auth.clientId,
-    azureConfig.jwt.secret,
-  ];
+  // Check for required environment variables
+  const connectionString = azureConfig.storage.connectionString;
+  const accountName = azureConfig.storage.accountName;
+  const jwtSecret = azureConfig.jwt.secret;
 
-  return required.every(value => value && value !== '');
+  if (!connectionString || connectionString.trim() === '' || connectionString === 'undefined') {
+    console.warn('Azure connection string is missing or invalid. Using mock data.');
+    return false;
+  }
+
+  if (!accountName || accountName.trim() === '' || accountName === 'undefined') {
+    console.warn('Azure storage account name is missing. Using mock data.');
+    return false;
+  }
+
+  if (!jwtSecret || jwtSecret.trim() === '' || jwtSecret === 'fallback-secret-key') {
+    console.warn('JWT secret is missing or using fallback. Using mock data.');
+    return false;
+  }
+
+  // Validate connection string format
+  if (!connectionString.includes('AccountName=') || !connectionString.includes('AccountKey=')) {
+    console.warn('Azure connection string format is invalid. Using mock data.');
+    return false;
+  }
+
+  return true;
 };

@@ -139,9 +139,22 @@ class AzureDataAccess {
       this.initializeClients();
     }
   }
-
   private initializeClients() {
     try {
+      // Validate configuration before attempting to initialize
+      if (!validateAzureConfig()) {
+        console.warn('Azure configuration validation failed. Using mock data.');
+        this.isConfigured = false;
+        return;
+      }
+
+      // Check if connection string is valid before creating clients
+      if (!azureConfig.storage.connectionString || azureConfig.storage.connectionString.trim() === '') {
+        console.warn('Azure connection string is empty. Using mock data.');
+        this.isConfigured = false;
+        return;
+      }
+
       // Initialize Table Client
       this.tableClient = new TableClient(
         azureConfig.storage.connectionString,
@@ -152,6 +165,8 @@ class AzureDataAccess {
       this.blobServiceClient = BlobServiceClient.fromConnectionString(
         azureConfig.storage.connectionString
       );
+      
+      console.log('Azure clients initialized successfully');
     } catch (error) {
       console.error('Failed to initialize Azure clients:', error);
       this.isConfigured = false;
