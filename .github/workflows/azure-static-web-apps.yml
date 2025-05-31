@@ -39,9 +39,9 @@ jobs:
           NEXT_PUBLIC_AZURE_CONFIGURED: 'true'
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-          AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
+          AZURE_STORAGE_ACCOUNT_NAME: 'kigappstorage'
           AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
-          AZURE_TABLE_ENDPOINT: ${{ secrets.AZURE_TABLE_ENDPOINT }}
+          AZURE_TABLE_ENDPOINT: 'https://kigappstorage.table.core.windows.net/'
           AZURE_AD_B2C_TENANT_NAME: ${{ secrets.AZURE_AD_B2C_TENANT_NAME }}
           AZURE_AD_B2C_CLIENT_ID: ${{ secrets.AZURE_AD_B2C_CLIENT_ID }}
           AZURE_AD_B2C_CLIENT_SECRET: ${{ secrets.AZURE_AD_B2C_CLIENT_SECRET }}
